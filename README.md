@@ -1,0 +1,1 @@
+# JupyterLite-Custom-GPT-Six-Thinking-Hats
