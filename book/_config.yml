@@ -1,0 +1,14 @@
+title: "Six Thinking Hats + JupyterLite"
+author: "James Tobias"
+only_build_toc_files: true
+execute:
+  execute_notebooks: "off"
+repository:
+  url: "https://github.com/jltobias/JupyterLite-Custom-GPT-Six-Thinking-Hats"
+  path_to_book: "book"
+  branch: "main"
+html:
+  use_repository_button: true
+  use_issues_button: true
+  extra_footer: |
+    Six Thinking Hats method attributed to Edward de Bono. Purple Hat orchestration is a project-specific extension.

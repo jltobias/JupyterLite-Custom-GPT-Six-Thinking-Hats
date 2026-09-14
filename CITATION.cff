@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: "JupyterLite Custom GPT Six Thinking Hats"
+message: "Please cite Edward de Bono for the Six Thinking Hats method and this repository for the implementation."
+type: software
+authors:
+  - family-names: Tobias
+    given-names: James
+repository-code: "https://github.com/jltobias/JupyterLite-Custom-GPT-Six-Thinking-Hats"
+references:
+  - type: book
+    title: "Six Thinking Hats"
+    authors:
+      - family-names: de Bono
+        given-names: Edward
+    year: 1985
+    publisher: "Little, Brown"
