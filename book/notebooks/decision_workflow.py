@@ -156,7 +156,9 @@ def _exclusive_write(path, content):
 def load_record(path=DEFAULT_RECORD):
     path = Path(path)
     if not path.exists():
-        raise FileNotFoundError(f"No saved decision at {path}. Run Notebook 02, paste your JSON (or explicitly choose its demo), and save first.")
+        if path.name == DEFAULT_RECORD.name:
+            raise FileNotFoundError(f"No saved decision at {path}. Run Notebook 02, paste your JSON (or explicitly choose its demo), and save first.")
+        raise FileNotFoundError(f"No record at {path}. Restore this file from the repository if it is a bundled example, then retry.")
     try:
         return parse_record(path.read_text(encoding="utf-8"))
     except UnicodeError as exc:
@@ -277,29 +279,36 @@ def to_markdown(data):
     return "\n".join(lines)
 
 
-def to_html(data):
+def to_html(data, *, standalone=True, include_map=True):
+    """Render semantic HTML, optionally as an inline fragment without a repeated map."""
     validate_record(data)
     from six_hats_mindmap import render_mind_map
+    heading_prefix = "record-" + uuid.uuid4().hex
     body = [f"<h1>{escape(data['title'])}</h1>", f"<p><strong>Decision question:</strong> {escape(data['question'])}</p>"]
     for key in ("subtitle", "context", "demo_notice"):
         if data.get(key):
             body.append(f"<p><strong>{key.replace('_', ' ').capitalize()}:</strong> {escape(data[key])}</p>")
     for hat, title, blocks in record_sections(data):
-        body.append(f'<section aria-labelledby="{hat}-heading"><h2 id="{hat}-heading">{escape(title)}</h2>')
+        heading_id = f"{heading_prefix}-{hat}-heading"
+        body.append(f'<section aria-labelledby="{heading_id}"><h2 id="{heading_id}">{escape(title)}</h2>')
         for label, values in blocks:
             body.append(f"<h3>{escape(label)}</h3>")
             body.append("<ul>" + "".join(f"<li>{escape(value)}</li>" for value in values) + "</ul>" if values else "<p>No entries recorded.</p>")
         body.append("</section>")
-    body.append("<details><summary>Open scalable mind map</summary>" + render_mind_map(data) + "</details>")
+    if include_map:
+        body.append("<details><summary>Open scalable mind map</summary>" + render_mind_map(data) + "</details>")
     body.append("<footer>Six Thinking Hats: Edward de Bono. Purple Hat: project extension. Evidence is not automatically verified.</footer>")
-    return ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
-            '<meta name="viewport" content="width=device-width, initial-scale=1">'
-            f"<title>{escape(data['title'])}</title><style>"
+    styled_body = ("<style>"
             ".decision-record{font-family:system-ui,sans-serif;line-height:1.65;color:#17243b;background:white;max-width:70rem;margin:2rem auto;padding:0 1rem}"
             ".decision-record section{border-top:2px solid #ccd5e2;margin-top:2rem}"
             ".decision-record :is(h1,h2,h3,p,li){white-space:pre-wrap;overflow-wrap:anywhere}"
             ".decision-record svg{max-width:100%;height:auto}.decision-record summary{cursor:pointer}.decision-record footer{margin-top:2rem}"
-            '</style></head><body><main class="decision-record">' + "".join(body) + "</main></body></html>")
+            '</style><main class="decision-record">' + "".join(body) + "</main>")
+    if not standalone:
+        return styled_body
+    return ('<!doctype html><html lang="en"><head><meta charset="utf-8">'
+            '<meta name="viewport" content="width=device-width, initial-scale=1">'
+            f"<title>{escape(data['title'])}</title></head><body>" + styled_body + "</body></html>")
 
 
 def export_record(data, directory="exports", *, stem="six-hats"):

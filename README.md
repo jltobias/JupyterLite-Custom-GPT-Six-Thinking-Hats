@@ -12,7 +12,7 @@ Edward de Bono developed **Six Thinking Hats**. This project adds an optional **
 
 No local Python installation or credentials are needed for the notebooks. Open a notebook in JupyterLite, select **Python (Pyodide)** if asked, wait for the kernel, and run cells with **Shift+Enter**. Keep the notebooks, helper modules, and `examples` folder together.
 
-Follow **01 → 02 → 03 → optional 06 → 05**. Notebook **04** is a separate rich example.
+Follow **01 → 02 → 03 → optional 06 → 05** for your own decision. Start [Notebook **04** — Build the supplied graphic](book/notebooks/04_global_health_example.ipynb) for an independent build-along: inspect the local original, add each perspective, compare Purple's role with authored reasoning, edit an item, and export your practice.
 
 | Notebook | What you do |
 |---|---|
@@ -21,7 +21,7 @@ Follow **01 → 02 → 03 → optional 06 → 05**. Notebook **04** is a separat
 | 03 — Render | Reopen that same file as a complete SVG map and readable HTML. |
 | 06 — Purple synthesis, optional | Author or paste a reviewed synthesis and save it into the same decision. |
 | 05 — Export | Download JSON, SVG, Markdown, and standalone accessible HTML. |
-| 04 — Global-health example | Explore an explicitly fictional seven-hat record without changing your decision. |
+| 04 — Build the supplied graphic | Reconstruct the original panels step by step, edit and export practice, and compare the separate fictional adaptation. |
 
 For a first practice run, set `USE_DEMO = True` in Notebook 02, execute that input cell, then execute the save cell. The demo starts with six hats; Notebook 06 explains how to use the example's authored Purple object. The demo never replaces an existing `decision.json`. For your own question, keep that flag false and paste only JSON into `GPT_RESPONSE`. After every edit, execute the input cell before generating the prompt or saving. Do the same after editing `PURPLE_RESPONSE` in Notebook 06. For JSON containing three consecutive apostrophes, use the documented UTF-8 file upload/read alternative in the [workflow guide](book/workflow.md#upload-a-json-response-instead).
 
@@ -41,9 +41,13 @@ JupyterLite work belongs to the current browser profile and site origin. Clearin
 
 SVG keeps all content and grows with long text; display dimensions scale the full drawing. HTML provides a responsive reading order with headings and lists, plus an expandable map. JSON preserves the exact record for editing. See the [workflow and schema](book/workflow.md).
 
-## Rich illustrative example
+## Build the supplied graphic
 
-Use the supplied graphic as a teaching object in [Read, question, and improve a seven-hat map](book/graphic-lesson.md). The 25–35 minute lesson includes the full-size image, a text companion, close-reading tasks for every hat, a worked Purple response, comparison with Notebook 04, and a five-point decision-brief rubric.
+Use the supplied graphic as a teaching object in [Read, question, and improve a seven-hat map](book/graphic-lesson.md). The 25–35 minute reading lesson includes a full-size image, text companion, close-reading tasks, and a five-point decision-brief rubric. The accompanying 35–50 minute [Notebook 04 build-along](book/notebooks/04_global_health_example.ipynb) starts with the question, adds six perspectives, then Purple's role and possible outcomes. Expand intermediate maps as needed, compare an explicitly authored synthesis, and change an item before exporting.
+
+The [source reconstruction](book/notebooks/examples/graphic_source.json) faithfully transcribes the meaningful panels: the exact question, seven items and four questions per original hat, Purple's role and six desired outputs, and six outcomes. It derives from [the full normalized transcription](book/graphic-text.md). Purple's role is stored in `focus` and its desired outputs in `items`; it is not a completed synthesis. The bundled [PNG copy](book/notebooks/examples/plugin-output-example.png) is byte-identical to the original image. SVG cards rebuild content and connections rather than the globe/hat artwork. Surrounding decorative callouts remain in the PNG and full transcription.
+
+Notebook 04 keeps source text, teaching interpretation, authored synthesis, and editable practice clearly labeled. It runs with no `decision.json`, never reads or writes that personal file, and saves practice into unique `graphic-exports/` snapshot folders. Its independently runnable adapted-example export continues to save the unchanged fictional record to `example-exports/`.
 
 The [global-health record](book/notebooks/examples/global_health.json) draws themes from the supplied image: GIS, GeoAI, health equity, open science, professional learning, ethics, and collaboration. It is not an assessment of a person, a verified research finding, or a recommendation for a real health deployment.
 
@@ -61,7 +65,7 @@ jupyter-book build _build-input/book
 jupyter lite build --contents book/notebooks --output-dir _site/lite
 ```
 
-Build only from clean learner sources. The verifier refuses saved outputs, execution state, edited response or file-read inputs, enabled demo/replacement flags, and private question/context inputs; it never clears them automatically. Back up your work and use a separate clean checkout for publishing. JupyterLite bundles only the explicit six notebooks, two helpers, and illustrative JSON; `decision.json`, response files, and export folders are excluded. Always run the verifier before a local build; `python scripts/verify_notebooks.py --check-sources-only` provides the source guard without executing notebooks.
+Build only from clean learner sources. The verifier refuses saved outputs, execution state, edited response or file-read inputs, enabled demo/replacement flags, and private question/context inputs; it never clears them automatically. Back up your work and use a separate clean checkout for publishing. JupyterLite bundles only the explicit six notebooks, two helpers, two example JSON files, and original PNG copy; `decision.json`, response files, and all export folders are excluded. Always run the verifier before a local build; `python scripts/verify_notebooks.py --check-sources-only` provides the source guard without executing notebooks.
 
 The notebook verifier runs all six notebooks in separate native Python kernels with one shared temporary directory. It checks the learning path, complete exports, empty-input preservation, and unrelated-user-data preservation. It stages a **clearly labeled demonstration book** without reading or modifying any learner's saved decision. Choose a fresh `--book-output` directory for another run. A plain `jupyter-book build book` also builds the source guide, but has no generated demonstration outputs.
 
