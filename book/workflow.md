@@ -99,8 +99,6 @@ Validation runs at capture, load, rendering, synthesis, and export boundaries. I
 (illustrative-reference)=
 ## Illustrative reference
 
-The supplied image inspired the global-health example's themes, seven items per original hat, key questions, Purple synthesis, and possible outcomes. It does not establish personal facts or recommend a real career or health intervention.
+Study the supplied graphic in [Read, question, and improve a seven-hat map](graphic-lesson.md). That lesson places the unchanged image at the center of a guided activity, with a full-size view, a text companion, questions for each hat, a worked Purple synthesis, and a decision-brief rubric.
 
-![Supplied illustrative mind map: six original thinking hats surrounding a global-health GIS question, with Purple synthesis and possible outcomes.](images/plugin-output-example.png)
-
-Notebook 04 uses a separate [illustrative JSON record](notebooks/examples/global_health.json). Its conditional synthesis connects teaching opportunities and enthusiasm to evidence gaps, privacy constraints, and staged review. Candidate source portals are explicitly marked as unverified starting points. The new SVG provides a complete text-first view; the image above remains a separate visual reference.
+Notebook 04 uses a separate [illustrative JSON adaptation](notebooks/examples/global_health.json). The lesson asks you to compare the original graphic with this editable example and identify what was retained, rewritten, and added. Neither establishes personal facts or verified health outcomes. Use the comparison to improve your own reasoning before export.

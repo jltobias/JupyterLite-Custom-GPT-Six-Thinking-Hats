@@ -43,6 +43,8 @@ SVG keeps all content and grows with long text; display dimensions scale the ful
 
 ## Rich illustrative example
 
+Use the supplied graphic as a teaching object in [Read, question, and improve a seven-hat map](book/graphic-lesson.md). The 25–35 minute lesson includes the full-size image, a text companion, close-reading tasks for every hat, a worked Purple response, comparison with Notebook 04, and a five-point decision-brief rubric.
+
 The [global-health record](book/notebooks/examples/global_health.json) draws themes from the supplied image: GIS, GeoAI, health equity, open science, professional learning, ethics, and collaboration. It is not an assessment of a person, a verified research finding, or a recommendation for a real health deployment.
 
 The [reference image](book/images/plugin-output-example.png) remains a separate illustration. The new renderer prioritizes complete editable text and explicit source limitations. [Candidate data sources](book/data-sources.md) are starting points for investigation, not verified evidence.

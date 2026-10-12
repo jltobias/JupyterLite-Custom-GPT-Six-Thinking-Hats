@@ -8,6 +8,8 @@ Edward de Bono developed **Six Thinking Hats**. The optional **Purple Hat — Or
 
 ## Start here
 
+Begin with [Read, question, and improve a seven-hat map](graphic-lesson.md): a guided lesson built around the supplied example graphic. Inspect each perspective, critique the difference between a proposed benefit and evidence, work through a conditional Purple recommendation, and create a short decision brief. No notebook execution is needed for the first part.
+
 [Launch JupyterLite](https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/lite/lab/index.html), open Notebook 01, and run cells with **Shift+Enter**. Select the **Python (Pyodide)** kernel if asked and allow it to finish loading. No local Python installation or credentials are required.
 
 Read the [workflow](workflow.md), then follow **01 → 02 → 03 → optional 06 → 05**. Each notebook reopens the same `decision.json`. Notebook 04 is a separate fictional global-health example and never changes your decision.

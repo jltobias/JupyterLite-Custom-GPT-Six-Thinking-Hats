@@ -1,6 +1,9 @@
 format: jb-book
 root: intro
 chapters:
+  - file: graphic-lesson
+    sections:
+      - file: graphic-text
   - file: workflow
   - file: notebooks/01_six_thinking_hats_method
   - file: notebooks/02_prompt_and_capture
