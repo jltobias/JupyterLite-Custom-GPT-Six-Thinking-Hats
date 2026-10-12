@@ -2,6 +2,14 @@
 
 Use the path **01 → 02 → 03 → optional 06 → 05**. Treat **04** as an independent example. Keep the notebooks, both Python helper files, and the `examples` folder together in JupyterLite.
 
+## First run and recovery
+
+For an immediate worked example, open **04** and choose **Run → Run All Cells**. To practice the connected workflow, open **02**, change `USE_DEMO = False` to `USE_DEMO = True`, and run all its cells. Wait for **ILLUSTRATIVE DEMO saved** or **Reopened existing decision** before opening **03**, **06**, or **05**. Running 02 with its unchanged defaults prepares a prompt but does not save a decision.
+
+**Action needed** means a prerequisite or input needs attention; the cell has not completed its requested result. Follow the message, correct the input, and rerun the affected cell. Invalid JSON still needs correction, and a saved decision still needs explicit permission before replacement. View and export cells reopen their files independently after a kernel restart. Capture cells need their input cell first; saving a non-empty Purple response also needs a successfully generated prompt in the current kernel.
+
+If you see an older traceback after this update, JupyterLite may be opening your browser's previously saved notebook copy. Download your notebooks and `decision.json` before replacing any file. Obtain the updated notebook from the repository and upload it into the same folder as the helper files. A private window can check the published defaults separately; it will not contain your saved decision. Do not clear site storage to update notebooks, because that can erase your work.
+
 ## 1. Frame the question in Notebook 01
 
 Choose one decision, identify who it affects, and state the time horizon, constraints, and evidence available. White examines information; red records feelings and values; black considers caution; yellow explores benefits; green generates alternatives; blue organizes the process. No hat establishes truth by itself.
@@ -20,10 +28,14 @@ Valid JSON can contain three consecutive apostrophes (`'''`), which cannot be pa
 
 ```python
 from pathlib import Path
-GPT_RESPONSE = Path("response.json").read_text(encoding="utf-8")
+GPT_RESPONSE = None  # Clear an older response before attempting the read.
+try:
+    GPT_RESPONSE = Path("response.json").read_text(encoding="utf-8")
+except (OSError, UnicodeError) as error:
+    print("Action needed: could not read response.json.", error)
 ```
 
-Keep the other input settings, execute the edited input cell, then execute the save cell. Notebook 06 supports the same alternative with `PURPLE_RESPONSE` and `purple-response.json`.
+Keep the other input settings, using unquoted `True` or `False` for both switches. Execute the edited input cell and resolve any file-read message before executing the save cell. A failed upload read clears the previous response; it cannot be saved accidentally. Notebook 06 supports the same alternative with `PURPLE_RESPONSE` and `purple-response.json`.
 
 ## 3. Reopen and inspect in Notebook 03
 
@@ -44,11 +56,13 @@ A useful Purple object explains:
 - Uncertainties and decision pivots: evidence or conditions that would change the recommendation.
 - Concrete next steps and review responsibility.
 
-After pasting or reading `PURPLE_RESPONSE`, **execute the edited input cell**, then execute the save cell. A new synthesis requires a non-empty `author` identifying authorship and review status, a recommendation, uncertainties, and decision pivots. The prompt cell retains its source snapshot. At save time, the notebook compares that snapshot with the current saved record and refuses a changed decision; regenerate the prompt and review a new synthesis before saving. A blank response changes nothing. Return to 03 to view the updated map or continue to 05.
+After pasting or reading `PURPLE_RESPONSE`, **execute the edited input cell**, then execute the save cell. A new synthesis requires a non-empty `author` identifying authorship and review status, a recommendation, uncertainties, and decision pivots. The prompt cell retains its source snapshot. At save time, the notebook compares that snapshot with the current saved record and refuses a changed decision; regenerate the prompt and review a new synthesis before saving. A blank response changes nothing. Rerunning the same already-saved synthesis is also a no-op; it does not require regenerating the prompt. Return to 03 to view the updated map or continue to 05.
 
 ## 5. Export and resume in Notebook 05
 
 The export cell reopens and validates `decision.json`, then prepares UTF-8 JSON, SVG, Markdown, and standalone HTML. It writes all four formats into a newly named snapshot subfolder of `exports/`, prints that folder, and displays download links only after the snapshot is complete. Rerunning creates another snapshot and leaves earlier snapshots untouched. A failed write removes only the incomplete new snapshot.
+
+If files were saved but link preparation failed, the completed snapshot remains available at the printed folder path.
 
 Click each download link. If embedded downloads are restricted, use the JupyterLite file browser: open `exports`, open the snapshot folder printed by the cell, right-click a file, and select **Download**. Review sensitive content, claims, and source limitations before sharing.
 

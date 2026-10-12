@@ -5,7 +5,7 @@
     ],
     "output_dir": "_site/lite",
     "extra_ignore_contents": [
-      "^/(?!01_six_thinking_hats_method\\.ipynb$|02_prompt_and_capture\\.ipynb$|03_render_mind_map\\.ipynb$|04_global_health_example\\.ipynb$|05_export_and_share\\.ipynb$|06_purple_hat_orchestrator\\.ipynb$|decision_workflow\\.py$|six_hats_mindmap\\.py$|examples(?:/global_health\\.json)?$).*"
+      "^/(?!01_six_thinking_hats_method\\.ipynb$|02_prompt_and_capture\\.ipynb$|03_render_mind_map\\.ipynb$|04_global_health_example\\.ipynb$|05_export_and_share\\.ipynb$|06_purple_hat_orchestrator\\.ipynb$|decision_workflow\\.py$|six_hats_mindmap\\.py$|examples(?:/(?:global_health\\.json|graphic_source\\.json|plugin-output-example\\.png))?$).*"
     ]
   }
 }

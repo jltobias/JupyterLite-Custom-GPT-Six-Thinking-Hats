@@ -178,6 +178,14 @@ class WorkflowTests(unittest.TestCase):
         with self.assertRaisesRegex(FileNotFoundError, 'Notebook 02'):
             load_record(self.path)
 
+    def test_missing_bundled_example_explains_restoration_without_personal_workflow(self):
+        path = Path(self.temp.name) / 'examples' / 'graphic_source.json'
+        with self.assertRaises(FileNotFoundError) as error:
+            load_record(path)
+        self.assertIn(str(path), str(error.exception))
+        self.assertIn('Restore', str(error.exception))
+        self.assertNotIn('Notebook 02', str(error.exception))
+
     def test_authored_synthesis_preserves_all_other_content(self):
         original = deepcopy(self.record)
         purple = deepcopy(self.record.pop('purple'))
@@ -316,8 +324,11 @@ class WorkflowTests(unittest.TestCase):
                 save_record(changed, self.path, overwrite=True)
                 before = self.path.read_bytes()
                 namespace['PURPLE_RESPONSE'] = json.dumps(self.record['purple'])
-                with self.assertRaisesRegex(ValidationError, 'changed since this prompt'):
+                message = io.StringIO()
+                with redirect_stdout(message):
                     exec(cells['purple-save'], namespace)
+                self.assertIn('changed since this prompt', message.getvalue())
+                self.assertIsNone(namespace['record'])
                 self.assertEqual(self.path.read_bytes(), before)
 
     def test_uploaded_response_can_contain_triple_apostrophes(self):
@@ -395,6 +406,23 @@ class WorkflowTests(unittest.TestCase):
                 # Commas within :is(...) do not start a new selector.
                 for selector in re.split(r',(?![^(]*\))', selectors):
                     self.assertRegex(selector.strip(), r'^\.decision-record(?:$|[\s.:>#\[])')
+
+    def test_inline_semantic_html_has_unique_headings_and_no_repeated_map(self):
+        fragments = [to_html(self.record, standalone=False, include_map=False) for _ in range(2)]
+        ids = []
+        for fragment in fragments:
+            self.assertNotIn('<html', fragment)
+            self.assertNotIn('<svg', fragment)
+            root = ET.fromstring('<div>' + fragment + '</div>')
+            headings = {node.get('id') for node in root.findall('.//h2')}
+            self.assertEqual(len(headings), 9)
+            self.assertEqual({node.get('aria-labelledby') for node in root.findall('.//section')}, headings)
+            ids.append(headings)
+            parsed = SemanticText()
+            parsed.feed(fragment)
+            for value in all_text_values(self.record):
+                self.assertTrue(any(' '.join(value.split()) in text for text in parsed.texts()))
+        self.assertFalse(ids[0] & ids[1])
 
 
 if __name__ == '__main__':

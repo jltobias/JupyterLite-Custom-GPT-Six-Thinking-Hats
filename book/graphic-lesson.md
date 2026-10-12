@@ -5,6 +5,8 @@ This lesson uses the supplied **Six-Thinking-Hats-GPT output graphic** as its pr
 
 **Suggested time:** 25–35 minutes, individually or in a small group. **Your product:** a short, annotated decision brief with a conditional Purple Hat recommendation.
 
+**Build it as you learn:** [Notebook 04 — Build the supplied graphic](notebooks/04_global_health_example.ipynb) is a separate 35–50 minute runnable lesson. It bundles the original image and panel text, starts with the central question, adds each hat, compares Purple's role with authored synthesis, and lets you edit and export a practice map. No saved decision or assistant is needed.
+
 By the end, you should be able to identify the six thinking modes and the Purple extension; distinguish evidence from a proposed benefit, feeling, or question; connect conflicting perspectives; and explain what would change a recommendation.
 
 **For a 30-minute session:** inspect the graphic or transcript (3 minutes); scan all seven panel explanations and complete **two** “Try it” prompts of your choice (5 minutes); discuss the worked response (5 minutes); compare one image/JSON example (5 minutes); then write and assess the brief (12 minutes). Completing every prompt and executing the notebooks are optional extensions for a longer session.
@@ -116,17 +118,19 @@ The tension is between moving quickly and demonstrating useful, responsible lear
 
 **Notice the added reasoning:** the original graphic supplies themes; the worked response supplies a limited choice, comparison, review responsibility, uncertainty, and conditions for changing course. Synthetic data limits exposure of real records; it does not establish fairness, usefulness, or readiness for deployment.
 
-## 4. Compare the graphic with the editable example
+## 4. Build the graphic and compare the examples
 
-Open [Notebook 04 — global-health worked example](notebooks/04_global_health_example.ipynb) in the book to inspect its demonstrated output. For execution, [launch JupyterLite](https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/lite/lab/index.html), open `04_global_health_example.ipynb`, and run its cells. It reads the bundled example and exports to a separate example folder; it does not replace your saved decision.
+Open [Notebook 04 — Build the supplied graphic](notebooks/04_global_health_example.ipynb) in the book to inspect its staged demonstration. For execution, [launch JupyterLite](https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/lite/lab/index.html), open `04_global_health_example.ipynb`, and run its cells. Add the six panels one at a time, read the connections, add Purple's role and outcomes, then inspect a separately authored synthesis. Change one item and rerender before exporting to a unique snapshot folder under `graphic-exports/`. The original image, source fixture, and your personal decision remain unchanged.
 
-Keep these three objects distinct:
+Keep these objects distinct:
 
 | Object | What to inspect |
 |---|---|
 | Supplied PNG above | The original visual teaching object, including its framing, questions, omissions, and outcome claims. |
+| [Source JSON](notebooks/examples/graphic_source.json) and its reconstructed SVG cards | Exact meaningful panel text, including Purple's role and desired outputs. The SVG reconstructs connections and text, not the globe or hat artwork. Decorative callouts remain in the image and full transcription. |
+| Notebook's authored synthesis and practice | Explicit teaching additions in separate copies; the two-week synthesis develops the response above, and the practice edit demonstrates how to change an item. |
 | [Illustrative JSON](notebooks/examples/global_health.json) | A separately authored adaptation inspired by the graphic, not an exact transcription or evidence that the image's claims are true. It adds structured evidence notes and a substantive Purple section. |
-| Notebook-generated SVG and HTML | Views of that JSON. Compare their content and reading order with the original image; they do not reproduce its artwork. |
+| Adaptation SVG and HTML | Views of the fictional JSON, with its four-week proposal. Its independent export cell still saves to `example-exports/`. |
 
 Find one idea carried over from the image, one statement rewritten in the adaptation, and one decision field added in the JSON. Inspect `purple.recommendation`, `purple.uncertainties`, and `purple.decision_pivots`. Explain how the additions help someone revisit a decision.
 

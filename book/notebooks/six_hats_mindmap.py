@@ -87,28 +87,56 @@ def _dimension(value, name):
         raise ValidationError(f"{name}: expected a finite positive number of pixels.")
 
 
-def render_mind_map(data, width=1400, height=None, include_purple=True):
-    """Render all content. Display dimensions scale a stable content-sized viewBox."""
+def render_mind_map(data, width=1400, height=None, include_purple=True, *, visible_sections=None):
+    """Render complete records, optionally showing selected panels for a teaching stage.
+
+    The decision card is always visible. ``visible_sections`` is a list/tuple of
+    distinct section names present in the record; [] shows only the decision.
+    Selection never relaxes record validation or changes canonical panel order.
+    Display dimensions scale a stable content-sized viewBox.
+    """
     validate_record(data)
     _dimension(width, "width")
     if height is not None:
         _dimension(height, "height")
     if not isinstance(include_purple, bool):
         raise ValidationError("include_purple: expected True or False.")
+    sections = {hat: (title, blocks) for hat, title, blocks in record_sections(data)}
+    available = list(sections)
+    if visible_sections is not None:
+        if not isinstance(visible_sections, (list, tuple)) or any(not isinstance(hat, str) for hat in visible_sections):
+            raise ValidationError("visible_sections: expected a list or tuple of section names.")
+        if len(set(visible_sections)) != len(visible_sections):
+            raise ValidationError("visible_sections: section names must be distinct.")
+        for hat in visible_sections:
+            if hat not in sections:
+                raise ValidationError(f"visible_sections: {hat!r} is not a section in this record; choose from {', '.join(available)}.")
+        if not include_purple and "purple" in visible_sections:
+            raise ValidationError("visible_sections: purple conflicts with include_purple=False.")
+        sections = {hat: value for hat, value in sections.items() if hat in visible_sections}
+    if not include_purple:
+        sections.pop("purple", None)
+    omitted = [hat for hat in available if hat not in sections]
+    description = ("Partial decision map. Shown: decision question" +
+                   (", " + ", ".join(sections) if sections else " only") +
+                   ". Omitted panels: " + ", ".join(omitted) + ".") if omitted else "Complete decision map."
     layout_width, margin, card_width = 1440, 48, 624
     root_blocks = [("Decision question", [data["question"]])]
     for key in ("subtitle", "context", "demo_notice"):
         if data.get(key):
             root_blocks.append((key.replace("_", " ").capitalize(), [data[key]]))
+    if omitted:
+        root_blocks.append(("Teaching stage" if visible_sections is not None else "Selected view", [description]))
     root_height, root = _card("decision", data["title"], root_blocks, margin, margin, layout_width - 2 * margin)
     cards = [root]
     connectors = []
     y = margin + root_height + 48
     last_y = margin + root_height
-    sections = {hat: (title, blocks) for hat, title, blocks in record_sections(data, include_purple=include_purple)}
     for left, right in (("white", "yellow"), ("red", "green"), ("black", "blue")):
         row_height = 0
         for hat, x in ((left, margin), (right, 768)):
+            if hat not in sections:
+                continue
             title, blocks = sections.pop(hat)
             if "label" not in data[hat]:
                 title = HAT_META[hat][0]
@@ -118,8 +146,9 @@ def render_mind_map(data, width=1400, height=None, include_purple=True):
             midpoint = y + card_height / 2
             edge = x + card_width if hat == left else x
             connectors.append(f'<path d="M 720 {last_y} V {midpoint} H {edge}" stroke="{HAT_META[hat][2]}"/>')
-        last_y = y + row_height / 2
-        y += row_height + 48
+        if row_height:
+            last_y = y + row_height / 2
+            y += row_height + 48
     for hat, (title, blocks) in sections.items():
         connectors.append(f'<path d="M 720 {last_y} V {y}" stroke="{HAT_META[hat][2]}"/>')
         card_height, card = _card(hat, title, blocks, margin, y, layout_width - 2 * margin)
@@ -132,7 +161,7 @@ def render_mind_map(data, width=1400, height=None, include_purple=True):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{display_height}" '
             f'viewBox="0 0 {layout_width} {layout_height}" preserveAspectRatio="xMidYMin meet" role="img" aria-labelledby="{accessible_id}-title {accessible_id}-desc">'
             f'<title id="{accessible_id}-title">{escape(data["title"])}</title>'
-            f'<desc id="{accessible_id}-desc">Complete decision map, connected by a central spine. Six Thinking Hats by Edward de Bono. '
+            f'<desc id="{accessible_id}-desc">{escape(description)} Panels connect to the decision by a central spine. Six Thinking Hats by Edward de Bono. '
             'Purple is a project extension. A semantic HTML and Markdown version accompanies the SVG export.</desc>'
             '<rect width="100%" height="100%" fill="white"/>'
             '<g fill="none" stroke-width="3">' + "".join(connectors) + '</g>'
