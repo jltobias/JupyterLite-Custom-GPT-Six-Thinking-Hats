@@ -1,49 +1,140 @@
-"""Dependency-free SVG renderer for Six Thinking Hats data; JupyterLite/Pyodide friendly."""
+"""Adaptive, connected SVG maps using only the Python standard library."""
 from html import escape
-from textwrap import wrap
+import math
+import re
+import unicodedata
+import uuid
+
+from decision_workflow import record_sections, validate_record, ValidationError
 
 HAT_META = {
-    "white": ("White Hat — Facts & Evidence", "#f7f7f7", "#5c6770"),
-    "red": ("Red Hat — Feelings & Intuition", "#ffe9ed", "#e32636"),
+    "white": ("White Hat — Facts & Evidence", "#f7f7f7", "#596570"),
+    "red": ("Red Hat — Feelings & Intuition", "#ffe9ed", "#ad1938"),
     "black": ("Black Hat — Risks & Challenges", "#eeeeee", "#222222"),
-    "yellow": ("Yellow Hat — Benefits & Opportunities", "#fff4bf", "#d99b00"),
-    "green": ("Green Hat — Creativity & Alternatives", "#e7f8ea", "#169b45"),
-    "blue": ("Blue Hat — Process & Next Steps", "#e4f1ff", "#1677d2"),
-    "purple": ("Purple Hat — Orchestrator", "#efe4ff", "#6f2dbd"),
+    "yellow": ("Yellow Hat — Benefits & Opportunities", "#fff4bf", "#775700"),
+    "green": ("Green Hat — Creativity & Alternatives", "#e7f8ea", "#17652f"),
+    "blue": ("Blue Hat — Process & Next Steps", "#e4f1ff", "#125e9e"),
+    "purple": ("Purple Hat — Orchestrator (project extension)", "#efe4ff", "#6f2dbd"),
+    "evidence": ("Evidence and source context", "#f5f7fa", "#526075"),
+    "outcomes": ("Possible outcomes", "#edf3ff", "#375d91"),
+    "decision": ("Decision", "#f1f6ff", "#254b7d"),
 }
-POSITIONS = {"white":(35,120),"red":(35,335),"black":(35,550),"yellow":(965,120),"green":(965,335),"blue":(965,550),"purple":(430,18)}
 
-def _text(x,y,text,size=15,weight="normal",max_chars=48,line_height=20,anchor="start"):
-    lines=[]
-    for paragraph in str(text).split("\n"):
-        lines.extend(wrap(paragraph,max_chars) or [""])
-    spans=[]
-    for i,line in enumerate(lines):
-        spans.append(f'<tspan x="{x}" dy="{0 if i==0 else line_height}">{escape(line)}</tspan>')
-    return f'<text x="{x}" y="{y}" font-size="{size}" font-weight="{weight}" text-anchor="{anchor}" font-family="Arial, sans-serif">{"".join(spans)}</text>'
 
-def render_mind_map(data,width=1400,height=840,include_purple=True):
-    hats=["white","red","black","yellow","green","blue"]
-    if include_purple and data.get("purple"): hats.append("purple")
-    out=[f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{height}" viewBox="0 0 {width} {height}">','<rect width="100%" height="100%" fill="#fff"/>','<circle cx="700" cy="430" r="178" fill="#f4f8ff" stroke="#2e6db4" stroke-width="4"/>']
-    out.append(_text(700,372,data.get("title","Six Thinking Hats"),30,"bold",25,34,"middle"))
-    if data.get("subtitle"): out.append(_text(700,470,data["subtitle"],17,"bold",36,22,"middle"))
-    if data.get("question"): out.append(_text(700,535,data["question"],14,"normal",42,18,"middle"))
-    for hat in hats:
-        section=data.get(hat,{})
-        if not section: continue
-        label,fill,stroke=HAT_META[hat]; x,y=POSITIONS[hat]; w,h=((540,175) if hat=="purple" else (400,190))
-        if hat=="purple": out.append(f'<path d="M 700 252 C 700 190, 700 210, 700 {y+h}" fill="none" stroke="{stroke}" stroke-width="5"/>')
-        else:
-            bx=x+(w if x<700 else 0); by=y+h/2; cx=525 if x<700 else 875
-            out.append(f'<path d="M {cx} 430 C {(cx+bx)/2:.1f} 430, {(cx+bx)/2:.1f} {by}, {bx} {by}" fill="none" stroke="{stroke}" stroke-width="5"/>')
-        out.append(f'<rect x="{x}" y="{y}" width="{w}" height="{h}" rx="24" fill="{fill}" stroke="{stroke}" stroke-width="2"/>')
-        out.append(_text(x+18,y+32,section.get("label",label),18,"bold",45,20))
-        yy=y+64
-        for item in section.get("items",[])[:6]:
-            lines=wrap(str(item),46)[:2]
-            out.append(f'<circle cx="{x+22}" cy="{yy-5}" r="3.5" fill="{stroke}"/>')
-            out.append(_text(x+34,yy,"\n".join(lines),13,"normal",46,16))
-            yy += 20 + 16*(len(lines)-1)
-    out.append('</svg>')
-    return ''.join(out)
+def _units(text):
+    return sum(0 if unicodedata.combining(char) else 2 if unicodedata.east_asian_width(char) in "WF" else 1 for char in text)
+
+
+def _wrap(text, limit):
+    """Wrap every character, including long URLs and wide Unicode, without a slice limit."""
+    lines = []
+    for paragraph in text.expandtabs(4).splitlines() or [""]:
+        line = ""
+        for token in re.findall(r"\S+\s*", paragraph):
+            if line and _units(line + token.rstrip()) > limit:
+                lines.append(line.rstrip())
+                line = ""
+            for char in token:
+                if _units(line + char) > limit:
+                    lines.append(line.rstrip())
+                    line = ""
+                line += char
+        lines.append(line.rstrip())
+    return lines
+
+
+def _measure(title, blocks, width):
+    entries = []
+    cursor = 30
+
+    def add(text, size=14, bold=False, bullet=False):
+        nonlocal cursor
+        indent = 16 if bullet else 0
+        limit = max(8, int((width - 48 - indent) / (size * .66)))
+        lines = _wrap(text, limit)
+        step = math.ceil(size * 1.45)
+        entries.append((cursor, text, lines, size, bold, indent, step))
+        cursor += len(lines) * step + 8
+
+    add(title, 20, True)
+    for label, values in blocks:
+        add(label, 15, True)
+        for value in values or ["No entries recorded."]:
+            add(value, bullet=True)
+        cursor += 6
+    return cursor + 12, entries
+
+
+def _card(hat, title, blocks, x, y, width):
+    height, entries = _measure(title, blocks, width)
+    _, fill, stroke = HAT_META[hat]
+    out = [f'<g role="group" aria-label="{escape(title, quote=True)}">',
+           f'<rect x="{x}" y="{y}" width="{width}" height="{height}" rx="18" fill="{fill}" stroke="{stroke}" stroke-width="2"/>']
+    for offset, original, lines, size, bold, indent, step in entries:
+        tx, ty = x + 24 + indent, y + offset
+        if indent:
+            out.append(f'<circle cx="{x+27}" cy="{ty-5}" r="2.5" fill="{stroke}"/>')
+        out.append(f'<text x="{tx}" y="{ty}" font-size="{size}" font-weight="{"bold" if bold else "normal"}" aria-label="{escape(original, quote=True)}">')
+        for index, line in enumerate(lines):
+            out.append(f'<tspan x="{tx}" dy="{0 if index == 0 else step}">{escape(line)}</tspan>')
+        out.append('</text>')
+    out.append('</g>')
+    return height, "".join(out)
+
+
+def _dimension(value, name):
+    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
+        raise ValidationError(f"{name}: expected a finite positive number of pixels.")
+
+
+def render_mind_map(data, width=1400, height=None, include_purple=True):
+    """Render all content. Display dimensions scale a stable content-sized viewBox."""
+    validate_record(data)
+    _dimension(width, "width")
+    if height is not None:
+        _dimension(height, "height")
+    if not isinstance(include_purple, bool):
+        raise ValidationError("include_purple: expected True or False.")
+    layout_width, margin, card_width = 1440, 48, 624
+    root_blocks = [("Decision question", [data["question"]])]
+    for key in ("subtitle", "context", "demo_notice"):
+        if data.get(key):
+            root_blocks.append((key.replace("_", " ").capitalize(), [data[key]]))
+    root_height, root = _card("decision", data["title"], root_blocks, margin, margin, layout_width - 2 * margin)
+    cards = [root]
+    connectors = []
+    y = margin + root_height + 48
+    last_y = margin + root_height
+    sections = {hat: (title, blocks) for hat, title, blocks in record_sections(data, include_purple=include_purple)}
+    for left, right in (("white", "yellow"), ("red", "green"), ("black", "blue")):
+        row_height = 0
+        for hat, x in ((left, margin), (right, 768)):
+            title, blocks = sections.pop(hat)
+            if "label" not in data[hat]:
+                title = HAT_META[hat][0]
+            card_height, card = _card(hat, title, blocks, x, y, card_width)
+            cards.append(card)
+            row_height = max(row_height, card_height)
+            midpoint = y + card_height / 2
+            edge = x + card_width if hat == left else x
+            connectors.append(f'<path d="M 720 {last_y} V {midpoint} H {edge}" stroke="{HAT_META[hat][2]}"/>')
+        last_y = y + row_height / 2
+        y += row_height + 48
+    for hat, (title, blocks) in sections.items():
+        connectors.append(f'<path d="M 720 {last_y} V {y}" stroke="{HAT_META[hat][2]}"/>')
+        card_height, card = _card(hat, title, blocks, margin, y, layout_width - 2 * margin)
+        cards.append(card)
+        last_y = y + card_height
+        y += card_height + 48
+    layout_height = y + 34
+    display_height = height if height is not None else round(width * layout_height / layout_width, 2)
+    accessible_id = "map-" + uuid.uuid4().hex
+    return (f'<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="{display_height}" '
+            f'viewBox="0 0 {layout_width} {layout_height}" preserveAspectRatio="xMidYMin meet" role="img" aria-labelledby="{accessible_id}-title {accessible_id}-desc">'
+            f'<title id="{accessible_id}-title">{escape(data["title"])}</title>'
+            f'<desc id="{accessible_id}-desc">Complete decision map, connected by a central spine. Six Thinking Hats by Edward de Bono. '
+            'Purple is a project extension. A semantic HTML and Markdown version accompanies the SVG export.</desc>'
+            '<rect width="100%" height="100%" fill="white"/>'
+            '<g fill="none" stroke-width="3">' + "".join(connectors) + '</g>'
+            '<g font-family="DejaVu Sans Mono, monospace" fill="#17243b">' + "".join(cards) + '</g>'
+            f'<text x="48" y="{y+4}" font-size="15" font-family="sans-serif" fill="#17243b">Six Thinking Hats: Edward de Bono. Purple: project extension. Evidence requires human review.</text></svg>')

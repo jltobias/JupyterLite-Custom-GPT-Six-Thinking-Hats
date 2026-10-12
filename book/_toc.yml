@@ -1,12 +1,15 @@
 format: jb-book
 root: intro
 chapters:
+  - file: graphic-lesson
+    sections:
+      - file: graphic-text
   - file: workflow
   - file: notebooks/01_six_thinking_hats_method
   - file: notebooks/02_prompt_and_capture
   - file: notebooks/03_render_mind_map
-  - file: notebooks/04_global_health_example
-  - file: notebooks/05_export_and_share
   - file: notebooks/06_purple_hat_orchestrator
+  - file: notebooks/05_export_and_share
+  - file: notebooks/04_global_health_example
   - file: data-sources
   - file: references

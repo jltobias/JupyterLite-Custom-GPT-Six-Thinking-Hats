@@ -1,0 +1,189 @@
+{
+  "title": "Global Health GIS Professional in the Age of AI",
+  "subtitle": "From maps to impact: geospatial intelligence for a healthier, more equitable world",
+  "question": "How could a global-health GIS professional develop useful GeoAI skills while advancing responsible, equitable health work?",
+  "context": "A fictional planning exercise for a professional development programme with limited time and compute. No person, institution, dataset, or health intervention has been assessed. The supplied image is a thematic reference.",
+  "demo_notice": "ILLUSTRATIVE DEMONSTRATION — statements are hypotheses, questions, and possible plans, not verified findings or personalized career or health advice.",
+  "white": {
+    "label": "White Hat — Facts & Evidence",
+    "focus": "What do we know, and what is still unknown?",
+    "items": [
+      "Inventory demonstrated GIS, spatial epidemiology, remote-sensing, climate, and data-science skills before selecting a learning goal.",
+      "WHO and World Bank portals are candidate sources; indicator definitions, units, coverage, and licenses still need inspection.",
+      "NASA, NOAA, and Copernicus are candidate Earth-observation and climate sources; compatibility with a health outcome has not been established.",
+      "Published case studies could provide evidence of impact, but no impact estimate has been verified for this scenario.",
+      "Assumptions include access to a mentor, time for practice, and permission to work with appropriate data.",
+      "JupyterLite offers a browser learning environment; compute, memory, package availability, and browser storage constrain prototypes.",
+      "Policy, funding, organizational priorities, and current GeoAI capabilities remain information gaps to investigate."
+    ],
+    "questions": [
+      "What evidence supports each candidate development path?",
+      "Which skills, data, resources, and stakeholder perspectives are missing?",
+      "What would establish that a GeoAI method adds value over a simpler GIS baseline?",
+      "Where are the largest temporal, geographic, and population coverage gaps?"
+    ]
+  },
+  "red": {
+    "label": "Red Hat — Feelings & Intuition",
+    "focus": "What feels meaningful, energizing, or worrying?",
+    "items": [
+      "Excitement about exploring GeoAI is an imagined learner reaction, not evidence that a tool will work.",
+      "A commitment to health equity could guide the choice of learning projects.",
+      "Concern about geoprivacy could make small-area health mapping feel unsafe even before a formal risk review.",
+      "The desire to learn, build, and share may support a JupyterLite teaching project.",
+      "Frustration with slow adoption or technical barriers could tempt a learner to bypass review.",
+      "Ethics, inclusion, open science, and real-world usefulness are proposed values to discuss with stakeholders.",
+      "Intuition about a meaningful opportunity should be recorded and compared with evidence without pretending that feelings are facts."
+    ],
+    "questions": [
+      "What energizes the learner most about this future?",
+      "What worries people whose data or communities might be represented?",
+      "Which options feel aligned with the stated values?",
+      "What contribution would remain worthwhile if the AI component failed?"
+    ]
+  },
+  "black": {
+    "label": "Black Hat — Risks & Challenges",
+    "focus": "What could go wrong, and where are the constraints?",
+    "items": [
+      "Automation may change parts of GIS work, but the extent and timing are uncertain.",
+      "Spatial bias, false precision, and model misuse could make a persuasive map misleading.",
+      "Fine-grained location data could enable re-identification, especially for stigmatized conditions or vulnerable populations.",
+      "Unequal data coverage could hide underserved places and distort model evaluation.",
+      "Browser memory, package support, and limited compute could prevent a prototype from scaling.",
+      "Consent, data governance, ethical review, and legal requirements need qualified review before any real-data project.",
+      "Sustained funding, maintenance, ownership, and career uncertainty could make a technically successful prototype impractical."
+    ],
+    "questions": [
+      "Which failure modes would most damage trust or equity?",
+      "Where could the proposed work cause harm?",
+      "Which assumptions are most likely to be wrong?",
+      "What conditions should stop the pilot before further investment?"
+    ]
+  },
+  "yellow": {
+    "label": "Yellow Hat — Benefits & Opportunities",
+    "focus": "What value might be possible, and why might it work?",
+    "items": [
+      "GeoAI may help organize health and environmental information if the outputs are demonstrably reliable.",
+      "Combining Earth observation, climate, and health data might reveal questions worth investigating.",
+      "A carefully evaluated prototype could test the feasibility of earlier warning or better targeting.",
+      "Geospatial health intelligence could be a useful area for skills development if stakeholder demand is confirmed.",
+      "Open-source tools and browser notebooks can make introductory learning easier to share.",
+      "Teaching reusable examples could build capacity and invite feedback from collaborators.",
+      "Participating in responsible-AI practice could help connect technical skill with accountable health work."
+    ],
+    "questions": [
+      "Which opportunity matters most to the intended users?",
+      "What distinctive value could the learner offer?",
+      "Where might GeoAI make a measurable difference compared with a simpler method?",
+      "What would success look like to communities and collaborators?"
+    ]
+  },
+  "green": {
+    "label": "Green Hat — Creativity & Alternatives",
+    "focus": "What other approaches and experiments are possible?",
+    "items": [
+      "Build a tiny JupyterLite prototype using synthetic or suitably aggregated public data.",
+      "Create an interactive notebook that compares an Earth-observation feature with a clearly defined health question.",
+      "Prototype a language-model-assisted geospatial workflow as a design exercise with manual verification at every step.",
+      "Explore a climate-health risk-mapping tutorial before proposing a real prediction system.",
+      "Develop a geoprivacy and AI red-teaming demonstration that shows how misleading maps can arise.",
+      "Use separate thinking-hat prompts as a decision workshop with people who have different expertise.",
+      "Compare roles such as geospatial health scientist, adviser, educator, and open-source builder instead of assuming one career path."
+    ],
+    "questions": [
+      "What unconventional idea could be tested at low cost?",
+      "How could different data and methods be combined without losing provenance?",
+      "What useful experiment would fit in one browser notebook?",
+      "How could the learner invite criticism and collaboration while protecting sensitive information?"
+    ]
+  },
+  "blue": {
+    "label": "Blue Hat — Process & Next Steps",
+    "focus": "How will the work be organized and reviewed?",
+    "items": [
+      "Define one learning goal and one intended impact question with a mentor.",
+      "Choose a small scope and a time budget before selecting the technology.",
+      "Set evaluation criteria for usefulness, reproducibility, uncertainty, equity, and privacy.",
+      "Draft a 12-month learn → build → iterate → teach roadmap, with a review after the first four weeks.",
+      "Maintain a Jupyter Book and JupyterLite repository with source context and reproducible examples.",
+      "Ask appropriate domain and community collaborators to review the problem framing and proposed outputs.",
+      "Review evidence, workload, and harms regularly; adapt or stop when the agreed criteria are not met."
+    ],
+    "questions": [
+      "What are the top three goals for the next one to three years?",
+      "What is the smallest useful first step?",
+      "How will progress and unintended consequences be assessed?",
+      "Which support, permissions, and collaborations are needed?"
+    ]
+  },
+  "purple": {
+    "label": "Purple Hat — Orchestrator (project extension)",
+    "focus": "Connect the six perspectives into a conditional course of action.",
+    "author": "Project-authored illustrative synthesis; requires learner and stakeholder review.",
+    "items": [
+      "A small, reproducible teaching prototype connects the green hat's browser experiment with the yellow hat's capacity-building opportunity and the red hat's wish to share useful work.",
+      "The white hat's evidence gaps and black hat's privacy concerns mean a convincing map is insufficient grounds for a real health deployment.",
+      "The blue hat's staged review can turn enthusiasm into learning while leaving space to stop or choose a simpler method."
+    ],
+    "questions": [
+      "Would collaborators value a reproducible learning resource enough to justify the maintenance time?",
+      "What evidence would justify moving beyond an educational prototype?"
+    ],
+    "themes": [
+      "Learning, transparency, and health equity connect the proposed skills, values, and opportunities.",
+      "Human review and provenance are needed throughout the process, not only at publication."
+    ],
+    "tensions": [
+      "Open sharing supports learning, while fine-grained health data can expose people; a public tutorial should use synthetic or appropriately aggregated data.",
+      "An ambitious GeoAI agenda conflicts with limited time and browser compute; a simple GIS baseline may answer the initial question more reliably."
+    ],
+    "blind_spots": [
+      "Community definitions of usefulness and acceptable risk have not yet been collected.",
+      "The scenario does not establish mentoring capacity, ongoing maintenance ownership, or dataset compatibility."
+    ],
+    "recommendation": "For this fictional scenario, begin with a four-week, synthetic-data JupyterLite teaching prototype and a simple GIS comparison. Ask a mentor and relevant stakeholders to review usefulness and risks before considering a larger project.",
+    "uncertainties": [
+      "It is unknown whether users want this resource, whether available data are fit for purpose, or whether GeoAI improves on the baseline."
+    ],
+    "decision_pivots": [
+      "If stakeholder review finds little practical value, switch to a smaller teaching or data-quality exercise.",
+      "If privacy or governance requirements cannot be met, do not use sensitive real data.",
+      "If the simple baseline is equally useful, retain it and redirect effort toward clearer communication and reproducibility."
+    ],
+    "next_steps": [
+      "Week 1: the learner and mentor define the question, baseline, evidence gaps, and stop criteria.",
+      "Weeks 2–3: the learner builds the synthetic-data notebook and records limitations.",
+      "Week 4: invited reviewers assess usefulness, reproducibility, and risks; the learner records a continue, revise, or stop decision."
+    ]
+  },
+  "evidence": [
+    {
+      "claim": "Health and development indicator portals may support a future evidence inventory.",
+      "source": "WHO Global Health Observatory: https://www.who.int/data/gho ; World Bank: https://data.worldbank.org/",
+      "status": "Candidate sources only; no dataset has been retrieved or validated.",
+      "notes": "Record indicator version, retrieval date, geographic units, denominators, time coverage, missingness, and license before use."
+    },
+    {
+      "claim": "Environmental and Earth-observation data may support an exploratory climate-health tutorial.",
+      "source": "NASA Earthdata: https://www.earthdata.nasa.gov/ ; NOAA: https://www.ncei.noaa.gov/cdo-web/ ; Copernicus: https://cds.climate.copernicus.eu/",
+      "status": "Candidate sources only; suitability and cross-source alignment are unknown.",
+      "notes": "Check spatial resolution, temporal alignment, measurement uncertainty, and terms of reuse."
+    },
+    {
+      "claim": "The supplied visual suggests themes for a professional-development exercise.",
+      "source": "User-supplied Six-Thinking-Hats-GPT output image, reproduced in the guide.",
+      "status": "Illustrative reference, not evidence of an individual's skills, values, or outcomes.",
+      "notes": "The new map retains the themes and key questions while adding explicit assumptions and a conditional authored synthesis."
+    }
+  ],
+  "outcomes": [
+    "Enhanced skills and professional growth, if practice and feedback are sustained.",
+    "A small, evaluated GeoAI or GIS teaching prototype with documented limitations.",
+    "A reusable Jupyter Book and JupyterLite learning resource.",
+    "Stronger collaboration if people find the work useful and participation is supported.",
+    "A better-informed contribution to global-health equity; no health impact is demonstrated by this exercise.",
+    "An explicit decision to continue, revise, or stop based on evidence, values, and feasibility."
+  ]
+}

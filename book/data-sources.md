@@ -1,6 +1,6 @@
 # Public data sources
 
-The worked global-health example names public sources rather than silently treating AI text as evidence. These links are starting points, not endorsements of a particular dataset for every analysis.
+The worked global-health example records candidate sources under `evidence`, alongside `claim`, `status`, and `notes`. These portals are starting points, not verified evidence or endorsements for a particular analysis. No dataset was retrieved for the example, and the notebooks do not check links or claims automatically.
 
 | Source | Link | Notes |
 |---|---|---|
@@ -16,3 +16,5 @@ The worked global-health example names public sources rather than silently treat
 ## Data-quality checklist
 
 Before using a source, record the dataset version, retrieval date, license, geographic unit, time coverage, missingness, denominator definitions, uncertainty, and any transformations you apply. For small-area health maps, explicitly assess privacy and re-identification risk before publication.
+
+Keep these details in evidence `notes` and distinguish an observed result from an assumption, candidate source, or information gap in `status`. Every annotation survives the JSON, SVG, Markdown, and HTML exports. An unverified source should remain visibly unverified in the Purple synthesis.

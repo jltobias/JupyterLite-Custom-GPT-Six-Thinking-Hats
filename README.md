@@ -1,78 +1,76 @@
-# JupyterLite + Custom GPT: Six Thinking Hats
+# Six Thinking Hats + JupyterLite
 
-A browser-first learning repository that pairs a custom **Six-Thinking-Hats-GPT** with **JupyterLite** notebooks and a **Jupyter Book**. The notebooks demonstrate a reproducible workflow for moving from a structured Six Thinking Hats conversation to JSON, synthesis, and exportable SVG mind maps—without requiring a local Python installation.
+Carry one decision from a structured conversation to editable JSON, a complete connected SVG map, a human-reviewed synthesis, and downloadable files—all in your browser.
 
-> **Method attribution.** The Six Thinking Hats method was developed by **Edward de Bono**. This repository cites and adapts the method for educational demonstrations. The optional **Purple Hat — Orchestrator** used here is a project-specific extension for synthesis and is **not** one of de Bono's original six hats.
+Edward de Bono developed **Six Thinking Hats**. This project adds an optional **Purple Hat — Orchestrator** for synthesis; Purple is not one of de Bono's original six hats.
 
-## Live sites
+## Start in your browser
 
-Once GitHub Pages is enabled with **GitHub Actions** as the source, the workflow in this repository publishes:
+- [Launch JupyterLite](https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/lite/lab/index.html)
+- [Read the Jupyter Book](https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/book/index.html)
+- [Project landing page](https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/)
 
-- **Project landing page:** <https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/>
-- **JupyterLite (JupyterLab):** <https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/lite/lab/index.html>
-- **Jupyter Book:** <https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/book/index.html>
-- **GitHub repository:** <https://github.com/jltobias/JupyterLite-Custom-GPT-Six-Thinking-Hats>
+No local Python installation or credentials are needed for the notebooks. Open a notebook in JupyterLite, select **Python (Pyodide)** if asked, wait for the kernel, and run cells with **Shift+Enter**. Keep the notebooks, helper modules, and `examples` folder together.
 
-If the Pages links return 404 after the first commit, open **Settings → Pages**, choose **GitHub Actions** as the source, and re-run the Pages workflow.
+Follow **01 → 02 → 03 → optional 06 → 05**. Notebook **04** is a separate rich example.
 
-## Notebooks
-
-| Notebook | Purpose |
+| Notebook | What you do |
 |---|---|
-| `01_six_thinking_hats_method.ipynb` | Introduces the six hats, attribution, and a machine-readable schema. |
-| `02_prompt_and_capture.ipynb` | Creates a reusable prompt for Six-Thinking-Hats-GPT and validates pasted JSON output. |
-| `03_render_mind_map.ipynb` | Renders structured hat output as a dependency-free SVG mind map in the browser. |
-| `04_global_health_example.ipynb` | Recreates the attached global-health/GeoAI scenario as a worked example with public data-source links. |
-| `05_export_and_share.ipynb` | Exports JSON, SVG, and standalone HTML artifacts. |
-| `06_purple_hat_orchestrator.ipynb` | Adds an optional synthesis layer for themes, tensions, blind spots, and next steps. |
+| 01 — Method and schema | Frame one question and understand the original six hats. |
+| 02 — Prompt and capture | Generate a prompt, paste or author JSON, validate it, and save `decision.json`. |
+| 03 — Render | Reopen that same file as a complete SVG map and readable HTML. |
+| 06 — Purple synthesis, optional | Author or paste a reviewed synthesis and save it into the same decision. |
+| 05 — Export | Download JSON, SVG, Markdown, and standalone accessible HTML. |
+| 04 — Global-health example | Explore an explicitly fictional seven-hat record without changing your decision. |
 
-The helper `book/notebooks/six_hats_mindmap.py` keeps the visualization logic reusable and JupyterLite-friendly.
+For a first practice run, set `USE_DEMO = True` in Notebook 02, execute that input cell, then execute the save cell. The demo starts with six hats; Notebook 06 explains how to use the example's authored Purple object. The demo never replaces an existing `decision.json`. For your own question, keep that flag false and paste only JSON into `GPT_RESPONSE`. After every edit, execute the input cell before generating the prompt or saving. Do the same after editing `PURPLE_RESPONSE` in Notebook 06. For JSON containing three consecutive apostrophes, use the documented UTF-8 file upload/read alternative in the [workflow guide](book/workflow.md#upload-a-json-response-instead).
 
-## Recommended workflow with Six-Thinking-Hats-GPT
+## Use the plugin or the generic prompt
 
-1. Open your **Six-Thinking-Hats-GPT** in ChatGPT.
-2. Use the prompt template generated in Notebook 02 and ask the GPT to return the six perspectives as JSON.
-3. Copy the JSON response into the notebook. This avoids placing API keys or private ChatGPT credentials in a public browser-executed notebook.
-4. Validate and normalize the response.
-5. Render it in Notebook 03 or the worked example in Notebook 04.
-6. Optionally use Notebook 06 for the project-specific Purple Hat synthesis.
-7. Export the map and source JSON with Notebook 05.
+[Six-Thinking-Hats-GPT](https://chatgpt.com/plugins/plugin_217cb0693754819196cd4d8af8c42973) can help generate the structured response. Access depends on your account and workspace permissions; access for another colleague is not assumed. If it is unavailable, use the same prompt from Notebook 02 in another assistant or author the JSON yourself.
 
-**Important:** a custom GPT in ChatGPT is not treated here as a public API endpoint. If you later add an API-backed service, keep secrets server-side rather than embedding them in JupyterLite.
+The workflow uses deliberate copy and paste. It makes no live model calls and does not embed credentials. Validation checks structure and text, **not factual accuracy**. Review claims, assumptions, source context, and privacy before sharing.
 
-## Local build
+Purple is authored reasoning, not item counting. It connects statements across the six hats, including feelings and values, then records a recommendation, uncertainties, and decision pivots. An empty synthesis input leaves the saved record unchanged. A newly submitted synthesis requires author/review-status provenance. If the saved decision changed since the synthesis prompt was generated, saving is refused until you regenerate the prompt and review the response.
+
+## Preserve and resume your work
+
+Each notebook opens `decision.json` from the same folder, even when it has a fresh kernel. A malformed response fails with a field-level message before it can replace saved data. Replacing an existing record from Notebook 02 requires explicitly setting `REPLACE_SAVED = True`; the separate worked example never replaces it.
+
+JupyterLite work belongs to the current browser profile and site origin. Clearing site data, private browsing, another profile or device, or storage limits can remove or isolate it. **Download your files**, including JSON, using Notebook 05's links or the file browser's **Download** action. Each export creates a separate snapshot folder under `exports/`; the cell prints its name. Open that folder to find the four files. Earlier snapshots remain unchanged even if a later export fails. To resume, upload your JSON as `decision.json` beside the notebooks. Back up or rename an existing decision before replacing it.
+
+SVG keeps all content and grows with long text; display dimensions scale the full drawing. HTML provides a responsive reading order with headings and lists, plus an expandable map. JSON preserves the exact record for editing. See the [workflow and schema](book/workflow.md).
+
+## Rich illustrative example
+
+Use the supplied graphic as a teaching object in [Read, question, and improve a seven-hat map](book/graphic-lesson.md). The 25–35 minute lesson includes the full-size image, a text companion, close-reading tasks for every hat, a worked Purple response, comparison with Notebook 04, and a five-point decision-brief rubric.
+
+The [global-health record](book/notebooks/examples/global_health.json) draws themes from the supplied image: GIS, GeoAI, health equity, open science, professional learning, ethics, and collaboration. It is not an assessment of a person, a verified research finding, or a recommendation for a real health deployment.
+
+The [reference image](book/images/plugin-output-example.png) remains a separate illustration. The new renderer prioritizes complete editable text and explicit source limitations. [Candidate data sources](book/data-sources.md) are starting points for investigation, not verified evidence.
+
+## Develop and verify
+
+The learner runtime uses only Python's standard library and IPython display. Build and development packages are installed separately:
 
 ```bash
-python -m pip install -r requirements.txt
-jupyter-book build book
+python -m pip install -r requirements-dev.txt
+python -m unittest discover -s tests -v
+python scripts/verify_notebooks.py --book-output _build-input/book
+jupyter-book build _build-input/book
 jupyter lite build --contents book/notebooks --output-dir _site/lite
 ```
 
-## Public data sources for examples
+Build only from clean learner sources. The verifier refuses saved outputs, execution state, edited response or file-read inputs, enabled demo/replacement flags, and private question/context inputs; it never clears them automatically. Back up your work and use a separate clean checkout for publishing. JupyterLite bundles only the explicit six notebooks, two helpers, and illustrative JSON; `decision.json`, response files, and export folders are excluded. Always run the verifier before a local build; `python scripts/verify_notebooks.py --check-sources-only` provides the source guard without executing notebooks.
 
-These are useful starting points for global-health and GeoAI exercises. Always inspect licensing, update cadence, geographic coverage, and methodology before analysis.
+The notebook verifier runs all six notebooks in separate native Python kernels with one shared temporary directory. It checks the learning path, complete exports, empty-input preservation, and unrelated-user-data preservation. It stages a **clearly labeled demonstration book** without reading or modifying any learner's saved decision. Choose a fresh `--book-output` directory for another run. A plain `jupyter-book build book` also builds the source guide, but has no generated demonstration outputs.
 
-| Source | Live link | Example use |
-|---|---|---|
-| WHO Global Health Observatory (GHO) | <https://www.who.int/data/gho> | Health indicators, country profiles, mortality, disease burden, health systems, equity. |
-| WHO GHO OData API | <https://www.who.int/data/gho/info/gho-odata-api> | Programmatic access to GHO indicators. |
-| World Bank Open Data | <https://data.worldbank.org/> | Population, development, health-system, environment, and socioeconomic indicators. |
-| NASA Earthdata | <https://www.earthdata.nasa.gov/> | Earth observation, climate, land, atmosphere, hydrology, and other geospatial data. |
-| NOAA Climate Data Online | <https://www.ncei.noaa.gov/cdo-web/> | Weather and climate observations for environmental-health analyses. |
-| Copernicus Climate Data Store | <https://cds.climate.copernicus.eu/> | Climate reanalysis and derived climate products. |
-| Humanitarian Data Exchange (HDX) | <https://data.humdata.org/> | Humanitarian, population, health, boundary, and crisis-response datasets. |
-| UNAIDS resources | <https://www.unaids.org/en/resources/documents> | HIV/AIDS reports and downloadable resources; verify the current data product for your use case. |
+CI runs deterministic unit tests, executes notebooks, and builds both static sites on pull requests. Deployment has a separate main-branch gate and requires those checks. Published JupyterLite uses the original unexecuted notebooks, so demonstration build outputs never become a learner's saved decision.
 
-## Citation and attribution
+If setting up a new deployment, select **GitHub Actions** in repository **Settings → Pages**. The workflow assembles the landing page, book, and JupyterLite under one static Pages site.
 
-The conceptual foundation is Edward de Bono's Six Thinking Hats method:
+## Attribution
 
-> de Bono, E. (1985). *Six Thinking Hats*. Little, Brown. Goodreads record: <https://www.goodreads.com/book/show/97030.Six_Thinking_Hats>.
+de Bono, E. (1985). *Six Thinking Hats*. Little, Brown. [WorldCat catalog record](https://search.worldcat.org/title/six-thinking-hats-the-power-of-focused-thinking/oclc/21864205).
 
-A library catalog record for the first U.S. edition is available via WorldCat: <https://search.worldcat.org/title/six-thinking-hats-the-power-of-focused-thinking/oclc/21864205>.
-
-When using this repository in teaching or publications, cite de Bono for the Six Thinking Hats method and cite this repository separately for the JupyterLite/Jupyter Book implementation, mind-map renderer, and Purple Hat extension.
-
-## Responsible use
-
-Six Thinking Hats is a thinking aid, not a substitute for subject-matter expertise, representative data, validation, peer review, or governance. For health and geospatial applications, pay particular attention to privacy, re-identification risk, spatial bias, data gaps, model uncertainty, and the possibility that maps or AI-generated summaries may create false precision.
+Cite de Bono for the method and this repository separately for the notebooks, schema, renderer, and Purple extension. Six Thinking Hats is a thinking aid; subject-matter expertise, representative evidence, governance, and human judgment remain necessary.
