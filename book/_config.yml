@@ -2,6 +2,7 @@ title: "Six Thinking Hats + JupyterLite"
 author: "James Tobias"
 only_build_toc_files: true
 execute:
+  # CI executes an isolated demonstration copy before building the book.
   execute_notebooks: "off"
 repository:
   url: "https://github.com/jltobias/JupyterLite-Custom-GPT-Six-Thinking-Hats"

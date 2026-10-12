@@ -4,3 +4,9 @@ book/_build/
 .ipynb_checkpoints/
 __pycache__/
 *.pyc
+_build-input/
+.venv/
+book/notebooks/decision.json
+book/notebooks/exports/
+book/notebooks/example-exports/
+.jupyterlite.doit.db*
