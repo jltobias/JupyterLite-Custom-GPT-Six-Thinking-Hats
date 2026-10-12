@@ -128,6 +128,14 @@ def verify(book_output=None):
             destination.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(SOURCE / relative, destination)
         rich = json.loads((directory / 'examples' / 'global_health.json').read_text(encoding='utf-8'))
+        # Default starts are a separate acceptance path: no demo is silently selected.
+        for number in ('02', '03', '05', '06'):
+            fresh = run(number, directory)
+            text = ''.join(output.get('text', '') for cell in fresh.cells
+                           if cell.cell_type == 'code' for output in cell.get('outputs', []))
+            assert 'Action needed:' in text, f'{number}: missing first-run recovery guidance'
+            assert not (directory / 'decision.json').exists(), f'{number}: unexpectedly wrote a decision'
+            assert not (directory / 'exports').exists(), f'{number}: exported without a decision'
         completed = {'01': run('01', directory, demo=True)}
         demo_input = "CENTRAL_QUESTION = 'Practice the illustrative scenario'\nCONTEXT = 'Fictional learning example'\nGPT_RESPONSE = ''\nUSE_DEMO = True\nREPLACE_SAVED = False"
         completed['02'] = run('02', directory, demo_input, demo=True)

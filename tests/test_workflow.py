@@ -316,8 +316,11 @@ class WorkflowTests(unittest.TestCase):
                 save_record(changed, self.path, overwrite=True)
                 before = self.path.read_bytes()
                 namespace['PURPLE_RESPONSE'] = json.dumps(self.record['purple'])
-                with self.assertRaisesRegex(ValidationError, 'changed since this prompt'):
+                message = io.StringIO()
+                with redirect_stdout(message):
                     exec(cells['purple-save'], namespace)
+                self.assertIn('changed since this prompt', message.getvalue())
+                self.assertIsNone(namespace['record'])
                 self.assertEqual(self.path.read_bytes(), before)
 
     def test_uploaded_response_can_contain_triple_apostrophes(self):
