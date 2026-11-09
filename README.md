@@ -4,6 +4,24 @@ Carry one decision from a structured conversation to editable JSON, a complete c
 
 Edward de Bono developed **Six Thinking Hats**. This project adds an optional **Purple Hat — Orchestrator** for synthesis; Purple is not one of de Bono's original six hats.
 
+![Six Thinking Hats and Purple Hat Orchestrator](book/images/plugin-output-example.png)
+
+*The splash image above shows the six original thinking modes around one decision, with an optional Purple Hat — Orchestrator connecting perspectives into a larger picture.*
+
+### The six hats, plus an optional orchestrator
+
+The six hats are complementary ways to examine the same question:
+
+- **White Hat — Facts & Evidence:** What do we know, and what is still unknown?
+- **Red Hat — Feelings & Intuition:** What matters emotionally, ethically, or instinctively?
+- **Black Hat — Risks & Challenges:** What could go wrong, and what constraints apply?
+- **Yellow Hat — Benefits & Opportunities:** What value could this create, and why might it work?
+- **Green Hat — Creativity & Alternatives:** What else is possible, and what new approaches can we try?
+- **Blue Hat — Process & Next Steps:** How will we organize the thinking and move forward?
+
+The project also includes an optional **Purple Hat — Orchestrator**. Purple is not one of Edward de Bono’s original six hats; it is this project’s synthesis layer. It connects themes across the six perspectives, surfaces tensions and blind spots, records uncertainties and decision pivots, and turns the reviewed discussion into a conditional recommendation and next steps.
+
+
 ## Start in your browser
 
 - [Launch JupyterLite](https://jltobias.github.io/JupyterLite-Custom-GPT-Six-Thinking-Hats/lite/lab/index.html)
